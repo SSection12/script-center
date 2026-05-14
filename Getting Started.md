@@ -3,7 +3,7 @@
 Welcome to the **Kanagawa Script Center**. All scripts are hosted here to ensure all devices, including Mobile and PC to be able to access it.
 You can also Download `.md` files that you have access to.
 
-Most scripts use the `.md` (Markdown) format, a simple markup language designed for high readability and easy formatting. 
+All scripts use the `.md` (Markdown) format, a simple markup language designed for high readability and easy formatting. 
 
 ---
 
