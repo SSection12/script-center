@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanagawa Script Center</title>
+    <link rel="icon" type="image/png" href="https://files.catbox.moe/cmptfa.png">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <style>
+        :root {
+            --thememaincolor: #0a0a0a;
+            --charcoal: #171717;
+            --trans: rgba(255, 255, 255, 0.02);
+            --border: rgba(255,255,255,0.08);
+            --seccolor: #783eff; 
+            --custom-purple: rgb(100, 0, 182);
+            --text-main: #eeeeee;
+            --text-dim: #999999;
+            --codebg: #1a1a1a;
+        }
+
+        *{margin:0;padding:0;box-sizing:border-box; -webkit-user-select: none; -ms-user-select: none; user-select: none;} /* Prevent Text Selection */
+
+        ::-webkit-scrollbar { width: 8px;}
+        ::-webkit-scrollbar-track {background:var(--thememaincolor);}
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius:10px;
+            border:2px solid var(--thememaincolor);
+        }
+
+        body {
+            background-color: var(--thememaincolor);
+            color: var(--text-main);
+            font-family: -apple-system, "SF Pro Display", sans-serif;
+            line-height:1.6;
+            overflow-x:hidden;
+        }
+
+        .bgglow {
+            position: fixed;
+            top:50%;left:50%;
+            transform: translate(-50%,-50%);
+            width:100vw;height:100vh;
+            background: radial-gradient(circle, rgba(139,92,246,0.05) 0%, rgba(0,0,0,0) 70%);
+            z-index:-1;
+        }
+
+        .mobile-nav-toggle {
+            position:fixed;
+            top:20px;
+            z-index:9999;
+            background:rgba(30,30,30,0.8);
+            backdrop-filter: blur(10px);
+            border:1px solid var(--border);
+            color:#fff;
+            padding:10px 18px;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:0.8rem;
+            text-transform:uppercase;
+            transition:all 0.2s;
+        }
+
+        .download-btn {
+            position:fixed;
+            top:20px;
+            z-index:9999;
+            background:rgba(30,30,30,0.8);
+            backdrop-filter: blur(10px);
+            border:1px solid var(--border);
+            color:#fff;
+            padding:10px 18px;
+            border-radius:8px;
+            cursor:pointer;
+            font-size:0.8rem;
+            text-transform:uppercase;
+            transition:all 0.2s;
+        }
+
+        .mobile-nav-toggle{right:20px;display:none;}
+        .download-btn{right:20px;}
+        .download-btn:hover{background:var(--accent);border-color:var(--accent);}
+
+        .layout-wrapper{display:flex;min-height:100vh;}
+
+        aside {
+            width:280px;
+            height:100vh;
+            position:fixed;
+            left:0;top:0;
+            background:rgba(10,10,10,0.9);
+            backdrop-filter:blur(30px);
+            border-right:1px solid var(--border);
+            padding:3rem 2rem;
+            z-index:1000;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow-y:auto;
+        }
+
+        .content-area{flex:1;margin-left:280px;display:flex;justify-content:center;}
+        .reading-pane{width:100%;max-width:800px;padding:8rem 2rem;}
+
+        #md-content h1,
+        #md-content h2,
+        #md-content h3{
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color:#fff;
+        }
+
+        #md-content p{margin-bottom:1rem;color:var(--text-dim);}
+
+        #md-content ul, #md-content ol {
+            margin-left:1.5rem;
+            margin-bottom:1.5rem;
+            color:var(--text-dim);
+        }
+
+        #md-content li{margin-bottom:0.5rem;}
+
+        #md-content blockquote{
+            background:var(--codebg);
+            border:1px solid var(--border);
+            border-left:4px solid var(--custom-purple);
+            padding:1rem;
+            border-radius:6px;
+            margin:1.5rem 0;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size:0.9rem;
+        }
+        #md-content blockquote p{margin-bottom:0;color:#ccc;}
+
+        #md-content a{color:var(--custom-purple);text-decoration:none;font-weight:500;}
+        #md-content a:hover{text-decoration:underline;}
+
+        .custom-highlight-color{color:var(--custom-purple) !important;}
+
+        mark{
+            background-color: rgba(255,219,75,0.719);
+            color:#1a1a1a;
+            padding:0 4px;
+            border-radius:2px;
+            font-weight:500;
+        }
+
+        .logo{font-weight:900;display:flex;align-items:center;gap:10px;margin-bottom:3rem;}
+
+        .nav-section{margin-top:25px;}
+        .section-title{font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+
+        .navlink {
+            display:block;
+            color:var(--text-dim);
+            text-decoration:none;
+            padding:8px 0;
+            font-size:0.9rem;
+            cursor:pointer;
+            transition:color 0.2s;
+        }
+        .navlink:hover{color:var(--accent);}
+
+        @media(max-width:1024px){
+            .mobile-nav-toggle{display:block;}
+            .download-btn{right:110px;}
+            aside{transform:translateX(-100%);width:300px;}
+            aside.open{transform:translateX(0);}
+            .content-area{margin-left:0;}
+            .reading-pane{padding:6rem 1.5rem;}
+        }
+
+        .logo{
+            font-weight:700;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            margin-bottom:3rem;
+            font-family:"Palatino Linotype","Book Antiqua",Palatino,serif;
+            font-size:1.1rem;
+            letter-spacing:0.5px;
+        }
+
+        .logogoldocolor{
+            color:#d4af37;
+            background:linear-gradient(to bottom,#f7e08a 0%,#d4af37 50%,#b8860b 100%);
+            -webkit-background-clip:text;
+            -webkit-text-fill-color:transparent;
+            filter:drop-shadow(0 0 1px rgba(212,175,55,0.3));
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+<div class="bgglow"></div>
+
+<button class="download-btn" onclick="downloadCurrentFile()">Download .MD</button>
+<button class="mobile-nav-toggle" id="menuBtn" onclick="toggleSidebar()">Show</button>
+
+<div class="layout-wrapper">
+    <aside id="sidebar">
+        <div class="logo">
+            <span class="logogoldocolor">Kanagawa</span> Script Center
+        </div>
+
+        <div class="nav-section">
+            <p class="section-title">Documentation</p>
+            <a class="navlink" onclick="loadMarkdown('Getting Started.md')">Getting Started</a>
+        </div>
+
+        <div class="nav-section">
+            <p class="section-title">Training Center</p>
+            <a class="navlink" onclick="loadMarkdown('Clan Introduction Guidelines.md')">Clan Introduction</a>
+            <a class="navlink" onclick="loadMarkdown('Recruitment Training.md')">Recruitment Script</a>
+        </div>
+    </aside>
+
+    <section class="content-area">
+        <div class="reading-pane">
+            <div id="breadcrumb" class="breadcrumb" style="font-size:0.8rem;color:var(--accent);"></div>
+            <div id="md-content">
+                <p>Loading...</p>
+            </div>
+
+            <footer style="margin-top:6rem;padding-top:2rem;border-top:1px solid var(--border);font-size:0.8rem;opacity:0.4;">
+                &copy; Web-Hosted .MD Format Viewer
+            </footer>
+        </div>
+    </section>
+</div>
+
+<script>
+    setInterval(function() {
+        const start = performance.now();
+        debugger; 
+        const end = performance.now();
+        if (end - start > 100) {
+            document.body.innerHTML = "<h1>leave</h1>";
+        }
+    }, 1000);
+    document.addEventListener('keydown', function(e) {
+        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+    var currentFile = 'Getting Started.md'
+    var r = new marked.Renderer()
+
+    r.link = function(obj) {
+        var href = obj.href;
+        var title = obj.title;
+        var text = obj.text;
+        return '<a href="' + href + '" title="' + (title || '') + '" target="_blank" rel="noopener noreferrer">' + text + '</a>'
+    }
+
+    marked.setOptions({ renderer: r })
+
+    function toggleSidebar() {
+        var sb = document.getElementById('sidebar')
+        var btn = document.getElementById('menuBtn')
+        sb.classList.toggle('open')
+        btn.textContent = sb.classList.contains('open') ? 'Close' : 'Show';
+    }
+    function downloadCurrentFile() {
+        const cacheBuster = "?t=" + new Date().getTime();
+        fetch(currentFile + cacheBuster).then(function(res) {
+            return res.blob()
+        }).then(function(blob) {
+            var url = window.URL.createObjectURL(blob)
+            var a = document.createElement('a')
+            a.href = url
+            a.download = currentFile
+            document.body.appendChild(a)
+            a.click()
+            window.URL.revokeObjectURL(url)
+            document.body.removeChild(a)
+        }).catch(err => console.error("cant download", err));
+    }
+
+    function loadMarkdown(fileName) {
+        currentFile = fileName;
+        var contentDiv = document.getElementById('md-content');
+        var bc = document.getElementById('breadcrumb');
+        contentDiv.innerHTML = '<p>Loading document...</p>';
+
+        bc.textContent = fileName.includes('.md') ? 'Center / ' + fileName.replace('.md', '') : 'Documentation / ' + fileName;
+        const cacheBuster = "?t=" + new Date().getTime();
+        fetch(fileName + cacheBuster).then(function(response) {
+            if (!response.ok) throw new Error('File not found');
+            return response.text();
+        }).then(function(text) {
+            text = text.replace(/!\[\[([^\]]+\.(png|jpg|jpeg|gif|webp|svg))\]\]/gi, (match, file) => {
+                var src = './images/' + file;
+                return `<img src="${src}" alt="${file}" style="max-width:100%;border-radius:10px;margin:1rem 0;display:block;">`;
+            });
+
+            text = text.replace(/==(.+?)==/g, '<mark>$1</mark>');
+            var html = marked.parse(text);
+            html = html.replace(/(^|\s)#([\w-]+)/g, '$1<span class="custom-highlight-color">#$2</span>');
+            html = html.replace(/\[([^\]]+)\](?![^<]*>)/g, '<span class="custom-highlight-color">[$1]</span>');
+            
+            contentDiv.innerHTML = html;
+
+            if (window.innerWidth <= 1024 && document.getElementById('sidebar').classList.contains('open')) {
+                toggleSidebar();
+            }
+        }).catch(err => {
+            contentDiv.innerHTML = '<p style="color:#ef4444;">Error loading file: ' + fileName + '</p>';
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => loadMarkdown('Getting Started.md'));
+</script>
+
+</body>
+</html>
