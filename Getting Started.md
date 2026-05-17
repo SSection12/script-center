@@ -11,7 +11,7 @@ All scripts use the `.md` (Markdown) format, a simple markup language designed f
 
 ### 1. Instructions for the Host/Trainer
 * These instructions are specifically for **you** as the Host or Trainer, not the trainees.
-* **Format Example:** ==Instruction Here==
+* **Format Example:** ==This is a note/instructions.==
 
 Select a file from the **Training Center** in the sidebar to begin.
 
