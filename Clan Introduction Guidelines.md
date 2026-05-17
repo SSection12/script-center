@@ -6,7 +6,7 @@
 - What is a Whack?
 - What's the basics Formations (STS, Wedge, Flank, Attention, STW (Shoulder to Wall), L/R Face. PTS, Single file line)
 - Who can I dm if I am facing an issue with a clan member?
-- What's a sub-clan what what subclans are there?
+- What's a sub-clan? What subclans are there?
 - What is Clan-wide?
 - Tour of Clan-game (Important spots)
 - Who are our allies?

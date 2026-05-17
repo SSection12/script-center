@@ -35,7 +35,7 @@ If you are being disruptive, you will be removed from this event, and in severe 
 
 Now that the rules are settled. Let’s begin with the event.
 
-### Explaination
+### Explanation
 
 First. What is Recruitment?
 
